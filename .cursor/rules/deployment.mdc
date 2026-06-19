@@ -1,0 +1,37 @@
+---
+description: Kubernetes deployment and Docker conventions
+globs: Dockerfile,nginx.conf,k8s/**/*
+alwaysApply: false
+---
+
+# Deployment
+
+## Docker
+
+```bash
+docker build \
+  --build-arg VITE_API_BASE_URL=https://aireview.com \
+  --build-arg VITE_USE_MOCK_API=false \
+  -t meridian-web:latest .
+```
+
+Runtime config is written to `/config.json` by `docker-entrypoint.sh` from env vars:
+`API_BASE_URL`, `API_RANK_PATH`, `USE_MOCK_API`.
+
+## Kubernetes
+
+```bash
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/deployment.yaml
+kubectl apply -f k8s/service.yaml
+kubectl apply -f k8s/ingress.yaml
+```
+
+Health probe: `GET /health`. Update `k8s/ingress.yaml` host and TLS secret for your domain.
+
+## Production checklist
+
+- Set `USE_MOCK_API=false` in ConfigMap
+- Point `API_BASE_URL` to live backend (`https://aireview.com`)
+- Ensure backend CORS allows the frontend origin
+- Build image in CI and push to your container registry

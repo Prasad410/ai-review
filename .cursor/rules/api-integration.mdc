@@ -1,0 +1,43 @@
+---
+description: API integration patterns for rank endpoint
+globs: src/services/**/*.ts,src/types/**/*.ts,src/config/**/*.ts
+alwaysApply: false
+---
+
+# API Integration
+
+## Endpoint
+
+```
+POST https://aireview.com/v1/rank
+Content-Type: application/json
+```
+
+## Request shape
+
+```typescript
+{
+  version: '1',
+  specialty: 'cardiologist',
+  place: '75024',
+  place_type: 'zip',       // 'city' | 'zip'
+  original_query: 'best cardiologist in zip code 75024'
+}
+```
+
+## Response mapping
+
+Backend uses snake_case. Map in `doctorApi.ts`:
+
+- `university_rank` → `universityRank`
+- `years_of_experience` → `yearsOfExperience`
+- `location.zip_code` → `zipCode`
+- `results` → `doctors`
+
+## Error handling
+
+Throw typed errors from `doctorApi.ts`; surface user-friendly messages in `useDoctorSearch`. Log response status and body server-side in backend; client only shows safe messages.
+
+## Mock mode
+
+`useMockApi: true` in config.json or `VITE_USE_MOCK_API=true` for local dev without backend.

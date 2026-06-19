@@ -1,0 +1,33 @@
+.section {
+  animation: fade-up var(--duration-normal) var(--ease-out) both;
+}
+
+.header {
+  margin-bottom: var(--space-lg);
+}
+
+.heading {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-deep-teal);
+  margin-bottom: var(--space-xs);
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: var(--color-slate);
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    animation: none;
+  }
+}

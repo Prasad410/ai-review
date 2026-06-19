@@ -1,0 +1,55 @@
+.message {
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  animation: fade-up var(--duration-normal) var(--ease-out) both;
+}
+
+.message[data-type='error'] {
+  background: var(--color-error-bg);
+  border: 1px solid rgba(155, 59, 48, 0.2);
+  color: var(--color-error);
+}
+
+.message[data-type='empty'] {
+  background: var(--color-ivory);
+  border: 1px dashed var(--color-border);
+  color: var(--color-slate);
+  text-align: center;
+}
+
+.message[data-type='loading'] {
+  background: var(--color-ivory);
+  border: 1px solid var(--color-border);
+  color: var(--color-slate);
+  position: relative;
+  overflow: hidden;
+}
+
+.message p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(21, 122, 114, 0.06) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message {
+    animation: none;
+  }
+
+  .shimmer {
+    animation: none;
+    display: none;
+  }
+}

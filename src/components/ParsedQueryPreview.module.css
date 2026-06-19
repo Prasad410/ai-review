@@ -1,0 +1,74 @@
+.preview {
+  background: var(--color-ivory);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  animation: fade-up var(--duration-normal) var(--ease-out) both;
+}
+
+.label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-slate-light);
+  margin-bottom: var(--space-sm);
+}
+
+.endpoint {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.method {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-ivory);
+  background: var(--color-deep-teal);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.url {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-teal-mid);
+  word-break: break-all;
+}
+
+.fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-xl);
+}
+
+.field dt {
+  font-size: 0.75rem;
+  color: var(--color-slate);
+  margin-bottom: 2px;
+}
+
+.field dd {
+  font-weight: 600;
+  color: var(--color-deep-teal);
+  text-transform: capitalize;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  text-transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preview {
+    animation: none;
+  }
+}

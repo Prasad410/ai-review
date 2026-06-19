@@ -1,0 +1,5 @@
+{
+  "apiBaseUrl": "https://aireview.com",
+  "apiRankPath": "/v1/rank",
+  "useMockApi": true
+}

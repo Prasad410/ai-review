@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: meridian-web-config
+  labels:
+    app: meridian-web
+data:
+  API_BASE_URL: "https://aireview.com"
+  API_RANK_PATH: "/v1/rank"
+  USE_MOCK_API: "false"

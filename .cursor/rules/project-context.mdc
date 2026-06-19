@@ -1,0 +1,28 @@
+---
+description: Meridian physician finder — project context and conventions
+alwaysApply: true
+---
+
+# Meridian — Project Context
+
+React + TypeScript + Vite SPA for ranking physicians by medical school prestige and experience.
+
+## Key paths
+
+- `src/services/doctorApi.ts` — POST `{apiBaseUrl}/v1/rank` (default: https://aireview.com/v1/rank)
+- `src/services/promptParser.ts` — parses prompts into `RankRequest`
+- `src/config/runtimeConfig.ts` — loads `/config.json` (K8s) then Vite env
+- `src/types/api.ts` — API contracts; extend here before backend changes
+- `k8s/` — Kubernetes manifests for cloud deployment
+
+## Conventions
+
+- Business logic in `services/` and `hooks/` — no DOM in services (mobile-ready)
+- UI in `components/` with CSS modules
+- Mock data only when `useMockApi` is true — production calls real API
+- Self-hosted fonts via `@fontsource/*` — do not add Google Fonts CDN links
+- Extend `RankRequest` for new search filters; keep `version` field for API versioning
+
+## Backend handoff
+
+Read `AGENTS.md` for full API contract. Map snake_case API responses in `doctorApi.ts`. Do not change endpoint path without updating `config.json`, `.env.example`, and K8s ConfigMap.

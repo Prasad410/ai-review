@@ -1,0 +1,49 @@
+:root {
+  /* Palette — clinical trust with warm humanity */
+  --color-deep-teal: #0b4f4a;
+  --color-teal-mid: #157a72;
+  --color-sage-mist: #e8f0ee;
+  --color-ivory: #fafbf9;
+  --color-copper: #c4715b;
+  --color-copper-hover: #b05f4a;
+  --color-charcoal: #1a2421;
+  --color-slate: #5c6b66;
+  --color-slate-light: #8a9893;
+  --color-border: #d4deda;
+  --color-error: #9b3b30;
+  --color-error-bg: #fdf0ee;
+  --color-ribbon-gold: #d4a853;
+  --color-ribbon-silver: #a8b4b0;
+
+  /* Typography */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Source Sans 3', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Spacing scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Layout */
+  --max-width: 720px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 280ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+  }
+}
