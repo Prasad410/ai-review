@@ -38,6 +38,7 @@ function mapMeta(
 
 async function fetchFromRankApi(request: RankRequest): Promise<DoctorSearchResponse> {
   const endpoint = getRankEndpoint();
+  console.log('Rank API request:', endpoint, request);
 
   const response = await fetch(endpoint, {
     method: 'POST',
@@ -50,12 +51,13 @@ async function fetchFromRankApi(request: RankRequest): Promise<DoctorSearchRespo
 
   if (!response.ok) {
     const detail = await response.text().catch(() => '');
-    throw new Error(
-      `Rank API error ${response.status}${detail ? `: ${detail.slice(0, 120)}` : ''}`
-    );
+    const errorMessage = `Rank API error ${response.status}${detail ? `: ${detail.slice(0, 120)}` : ''}`;
+    console.error('Rank API error:', errorMessage);
+    throw new Error(errorMessage);
   }
 
   const data = (await response.json()) as RankApiResponse;
+  console.log('Rank API response:', data);
 
   return {
     doctors: (data.results ?? []).map(mapDoctor),
@@ -86,4 +88,30 @@ export async function searchDoctors(
   }
 
   return fetchFromRankApi(request);
+}
+
+// Cache metadata on the frontend runtime to avoid repeated calls
+let _metadataCache: { specialties: string[]; zip_codes: string[]; cities: string[] } | null = null;
+
+export async function getSearchMetadata(): Promise<{ specialties: string[]; zip_codes: string[]; cities: string[] }> {
+  if (_metadataCache) return _metadataCache;
+
+  const { apiBaseUrl } = getConfig();
+  const endpoint = `${apiBaseUrl}/v1/search-metadata`;
+
+  try {
+    const res = await fetch(endpoint, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Metadata fetch failed ${res.status}`);
+    const data = await res.json();
+    // ensure arrays
+    _metadataCache = {
+      specialties: Array.isArray(data.specialties) ? data.specialties : [],
+      zip_codes: Array.isArray(data.zip_codes) ? data.zip_codes : [],
+      cities: Array.isArray(data.cities) ? data.cities : [],
+    };
+    return _metadataCache;
+  } catch (err) {
+    console.error('Failed to load search metadata', err);
+    return { specialties: [], zip_codes: [], cities: [] };
+  }
 }

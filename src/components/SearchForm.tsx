@@ -1,4 +1,4 @@
-import type { FormEvent } from 'react';
+﻿import type { FormEvent } from 'react';
 import styles from './SearchForm.module.css';
 
 interface SearchFormProps {

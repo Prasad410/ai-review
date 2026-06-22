@@ -57,9 +57,9 @@ export function DoctorCard({ doctor, rank, index }: DoctorCardProps) {
               <span className={styles.zip}> · {doctor.zipCode}</span>
             )}
           </span>
-          <span className={styles.rating} aria-label={`Rating ${doctor.rating} out of 5`}>
+          <span className={styles.rating} aria-label={`Doctor score ${doctor.rating} out of 10`}>
             <span className={styles.ratingValue}>{doctor.rating.toFixed(1)}</span>
-            <span className={styles.ratingMax}>/5</span>
+            <span className={styles.ratingMax}>/10</span>
           </span>
         </footer>
       </div>
