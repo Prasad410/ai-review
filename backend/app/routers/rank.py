@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.schemas import RankRequest, RankResponse
+from app.models import Doctor, Review
+from app.schemas import RankRequest, RankResponse, ReviewRequest, ReviewResponse
 from app.services.rank_service import rank_doctors
 from sqlalchemy import select, distinct
-from app.models import Doctor
 
 router = APIRouter(tags=["rank"])
 
@@ -18,6 +18,19 @@ def rank_endpoint(request: RankRequest, http_request: Request, db: Session = Dep
         ip_address=http_request.client.host if http_request.client else None,
         user_agent=http_request.headers.get("user-agent"),
     )
+
+
+@router.post("/reviews", response_model=ReviewResponse)
+def submit_review(request: ReviewRequest, db: Session = Depends(get_db)):
+    review = Review(
+        user_name=request.user_name.strip(),
+        user_email=request.user_email.strip(),
+        user_review=request.user_review.strip(),
+    )
+    db.add(review)
+    db.commit()
+    db.refresh(review)
+    return review
 
 
 @router.get("/search-metadata")

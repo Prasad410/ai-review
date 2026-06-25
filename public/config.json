@@ -1,5 +1,5 @@
 {
-  "apiBaseUrl": "https://aireview.com",
+  "apiBaseUrl": "http://127.0.0.1:8000",
   "apiRankPath": "/v1/rank",
-  "useMockApi": true
+  "useMockApi": false
 }

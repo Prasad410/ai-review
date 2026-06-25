@@ -35,6 +35,20 @@ export interface Doctor {
   rating: number;
 }
 
+export interface ReviewRequest {
+  user_name: string;
+  user_email: string;
+  user_review: string;
+}
+
+export interface ReviewResponse {
+  id: string;
+  user_name: string;
+  user_email: string;
+  user_review: string;
+  created_at: string;
+}
+
 export interface SearchMeta {
   specialty: string;
   place: string;

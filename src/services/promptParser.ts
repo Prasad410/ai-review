@@ -75,6 +75,49 @@ function normalizeText(text: string): string {
   return text.trim().toLowerCase().replace(/\s+/g, ' ');
 }
 
+function levenshteinDistance(a: string, b: string): number {
+  const matrix: number[][] = Array.from({ length: b.length + 1 }, (_, y) =>
+    Array.from({ length: a.length + 1 }, (_, x) => (y === 0 ? x : x === 0 ? y : 0))
+  );
+
+  for (let y = 1; y <= b.length; y++) {
+    for (let x = 1; x <= a.length; x++) {
+      const cost = a[x - 1] === b[y - 1] ? 0 : 1;
+      matrix[y][x] = Math.min(
+        matrix[y - 1][x] + 1,
+        matrix[y][x - 1] + 1,
+        matrix[y - 1][x - 1] + cost
+      );
+    }
+  }
+
+  return matrix[b.length][a.length];
+}
+
+function findClosestSpecialty(text: string): string | null {
+  const normalized = normalizeText(text).replace(BEST_PREFIX_PATTERN, '').replace(RESERVED_PLACE_WORDS, ' ').trim();
+  if (!normalized) return null;
+
+  const candidatePhrases = [normalized];
+  const tokens = normalized.split(' ').filter(Boolean);
+  candidatePhrases.push(...tokens);
+
+  let bestMatch: string | null = null;
+  let lowestDistance = Infinity;
+
+  for (const candidate of candidatePhrases) {
+    for (const specialty of SPECIALTY_KEYS) {
+      const distance = levenshteinDistance(candidate, specialty);
+      if (distance < lowestDistance) {
+        lowestDistance = distance;
+        bestMatch = specialty;
+      }
+    }
+  }
+
+  return lowestDistance <= 2 && bestMatch ? SPECIALTY_ALIASES[bestMatch] : null;
+}
+
 function findSpecialty(text: string): string | null {
   const lower = normalizeText(text);
 
@@ -92,7 +135,7 @@ function findSpecialty(text: string): string | null {
     }
   }
 
-  return null;
+  return findClosestSpecialty(text);
 }
 
 function normalizePlace(raw: string): string {

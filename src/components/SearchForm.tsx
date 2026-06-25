@@ -5,6 +5,8 @@ interface SearchFormProps {
   onSearch: (prompt: string) => void;
   isLoading: boolean;
   initialValue?: string;
+  suggestions?: string[];
+  suggestionLabel?: string;
 }
 
 const EXAMPLES = [
@@ -13,7 +15,13 @@ const EXAMPLES = [
   'best dermatologist in Austin',
 ];
 
-export function SearchForm({ onSearch, isLoading, initialValue = '' }: SearchFormProps) {
+export function SearchForm({
+  onSearch,
+  isLoading,
+  initialValue = '',
+  suggestions,
+  suggestionLabel,
+}: SearchFormProps) {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -28,6 +36,9 @@ export function SearchForm({ onSearch, isLoading, initialValue = '' }: SearchFor
       input.focus();
     }
   };
+
+  const chips = suggestions && suggestions.length > 0 ? suggestions : EXAMPLES;
+  const label = suggestionLabel ?? 'Try:';
 
   return (
     <section className={styles.section} aria-labelledby="search-heading">
@@ -74,9 +85,9 @@ export function SearchForm({ onSearch, isLoading, initialValue = '' }: SearchFor
         </div>
       </form>
 
-      <div className={styles.examples} role="group" aria-label="Example searches">
-        <span className={styles.examplesLabel}>Try:</span>
-        {EXAMPLES.map((example) => (
+      <div className={styles.examples} role="group" aria-label={label}>
+        <span className={styles.examplesLabel}>{label}</span>
+        {chips.map((example) => (
           <button
             key={example}
             type="button"

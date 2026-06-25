@@ -1,5 +1,6 @@
 import type { Doctor, SearchMeta } from '../types/api';
 import { DoctorCard } from './DoctorCard';
+import { ReviewForm } from './ReviewForm';
 import styles from './DoctorList.module.css';
 
 interface DoctorListProps {
@@ -26,6 +27,8 @@ export function DoctorList({ doctors, meta }: DoctorListProps) {
           </li>
         ))}
       </ol>
+
+      <ReviewForm />
     </section>
   );
 }

@@ -65,3 +65,28 @@ class SearchHistory(Base):
             f"<SearchHistory(id={self.id!s}, query={self.query!r}, specialty={self.specialty!r}, "
             f"place={self.place!r}, place_type={self.place_type!r}, results_count={self.results_count})>"
         )
+
+
+class Review(Base):
+    __tablename__ = "reviews"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        nullable=False,
+    )
+    user_name: Mapped[str] = mapped_column(String(length=255), nullable=False)
+    user_email: Mapped[str] = mapped_column(String(length=255), nullable=False)
+    user_review: Mapped[str] = mapped_column(String(length=2048), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<Review(id={self.id!s}, user_name={self.user_name!r}, user_email={self.user_email!r}, "
+            f"user_review={self.user_review!r})>"
+        )

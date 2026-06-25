@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 from typing import List, Literal
 
 from pydantic import BaseModel
@@ -42,3 +43,20 @@ class MetaSchema(BaseModel):
 class RankResponse(BaseModel):
     results: List[DoctorSchema]
     meta: MetaSchema
+
+
+class ReviewRequest(BaseModel):
+    user_name: str
+    user_email: str
+    user_review: str
+
+
+class ReviewResponse(BaseModel):
+    id: uuid.UUID
+    user_name: str
+    user_email: str
+    user_review: str
+    created_at: datetime
+
+    class Config:
+        orm_mode = True

@@ -5,6 +5,8 @@ import type {
   RankApiDoctor,
   RankApiResponse,
   RankRequest,
+  ReviewRequest,
+  ReviewResponse,
   SearchMeta,
 } from '../types/api';
 import { fetchDoctorsMock } from './mockDoctors';
@@ -88,6 +90,29 @@ export async function searchDoctors(
   }
 
   return fetchFromRankApi(request);
+}
+
+export async function submitReview(request: ReviewRequest): Promise<ReviewResponse> {
+  const { apiBaseUrl } = getConfig();
+  const endpoint = `${apiBaseUrl}/v1/reviews`;
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text().catch(() => '');
+    const errorMessage = `Review API error ${response.status}${detail ? `: ${detail.slice(0, 120)}` : ''}`;
+    console.error('Review API error:', errorMessage);
+    throw new Error(errorMessage);
+  }
+
+  return (await response.json()) as ReviewResponse;
 }
 
 // Cache metadata on the frontend runtime to avoid repeated calls
